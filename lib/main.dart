@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'pages/scroll_design.dart';
+import 'pages/scroll.page.dart';
 
 void main() => runApp(const MyApp());
 
