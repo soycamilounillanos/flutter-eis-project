@@ -20,12 +20,12 @@ class Post {
   });
 
   factory Post.fromJson(Map<String, dynamic> json) => Post(
-    id: json["id"],
-    image: json["image"],
-    text: json["text"],
-    publishDate: json["publishDate"],
-    likes: json["likes"],
-    tags: json["tags"],
-    owner: Owner.fromJson(json["owner"]),
-  );
+        id: json["id"],
+        image: json["image"],
+        text: json["text"],
+        publishDate: json["publishDate"],
+        likes: json["likes"],
+        tags: json["tags"],
+        owner: Owner.fromJson(json["owner"]),
+      );
 }
