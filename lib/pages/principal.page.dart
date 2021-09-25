@@ -63,7 +63,7 @@ class PrincipalPage extends StatelessWidget {
           _informacionPerfil(context),
           _descripcionPost(),
           _imagenPost(),
-          Text("5"),
+          _infoLikePost(),
         ],
       ),
     );
@@ -73,9 +73,7 @@ class PrincipalPage extends StatelessWidget {
     return FadeInImage(
         placeholder: AssetImage('assets/loanding.gif'),
         image: NetworkImage(
-            "https://img.dummyapi.io/photo-1564694202779-bc908c327862.jpg"
-      )
-    );
+            "https://img.dummyapi.io/photo-1564694202779-bc908c327862.jpg"));
   }
 
   _descripcionPost() {
@@ -123,14 +121,57 @@ class PrincipalPage extends StatelessWidget {
     );
   }
 
-  _navegateProfile({ required BuildContext context, required Widget widget }) {
+  _navegateProfile({required BuildContext context, required Widget widget}) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ProfilePage())
-        );
-      },
-      child: widget
-    );
+        onTap: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => ProfilePage()));
+        },
+        child: widget);
+  }
+
+  _infoLikePost() {
+    return Container(
+        margin: EdgeInsets.all(5.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Icons.favorite,
+                  color: Colors.red,
+                  size: 25,
+                ),
+                Text(
+                  "5",
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20),
+                ),
+                const SizedBox(
+                  width: 100,
+                ),
+                _tagsList(),
+                _tagsList(),
+                _tagsList(),
+              ],
+            ),
+          ],
+        ));
+  }
+
+  _tagsList() {
+    return Container(
+        margin: EdgeInsets.all(5.0),
+        padding: EdgeInsets.all(5.0),
+        decoration: BoxDecoration(
+          color: Colors.grey,
+          borderRadius: BorderRadius.all(
+              Radius.circular(5.0) //                 <--- border radius here
+              ),
+        ),
+        child: Text("Hola"));
   }
 }
