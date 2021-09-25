@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_doggy/pages/principal.page.dart';
 
 class ScrollScreem extends StatelessWidget {
   const ScrollScreem({Key? key}) : super(key: key);
@@ -8,7 +9,7 @@ class ScrollScreem extends StatelessWidget {
     return Scaffold(
       body: PageView(
         scrollDirection: Axis.vertical,
-        children: const [Page1Widget(), Pag2()],
+        children: const [HomePage(), PrincipalPage()],
       ),
     );
   }
@@ -60,8 +61,8 @@ class MainContentWidget extends StatelessWidget {
   }
 }
 
-class Page1Widget extends StatelessWidget {
-  const Page1Widget({
+class HomePage extends StatelessWidget {
+  const HomePage({
     Key? key,
   }) : super(key: key);
 
@@ -73,27 +74,4 @@ class Page1Widget extends StatelessWidget {
   }
 }
 
-class Pag2 extends StatelessWidget {
-  const Pag2({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        color: Colors.white,
-        child: Center(
-          child: TextButton(
-            onPressed: () {},
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                "Bienvenido",
-                style: TextStyle(fontSize: 20, color: Colors.white),
-              ),
-            ),
-            style: TextButton.styleFrom(
-                backgroundColor: const Color(0xff3AAAFE),
-                shape: const StadiumBorder()),
-          ),
-        ));
-  }
-}
