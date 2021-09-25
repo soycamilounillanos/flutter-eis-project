@@ -59,11 +59,11 @@ class _PrincipalPageState extends State<PrincipalPage> {
 
   Widget _box(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+      margin: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(color: Color(0xff707070)),
+        border: Border.all(color: const Color(0xff707070)),
       ),
       child: Column(
         children: [
