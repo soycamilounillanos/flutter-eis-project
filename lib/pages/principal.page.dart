@@ -134,7 +134,7 @@ class PrincipalPage extends StatelessWidget {
     return Container(
         margin: EdgeInsets.all(5.0),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Row(
               children: [
@@ -150,14 +150,14 @@ class PrincipalPage extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       fontSize: 20),
                 ),
-                const SizedBox(
-                  width: 100,
-                ),
-                _tagsList(),
-                _tagsList(),
-                _tagsList(),
               ],
             ),
+            const SizedBox(
+              width: 30,
+            ),
+            _tagsList(),
+            _tagsList(),
+            _tagsList(),
           ],
         ));
   }
