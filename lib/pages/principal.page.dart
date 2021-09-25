@@ -37,7 +37,7 @@ class PrincipalPage extends StatelessWidget {
   }
 
   _body(){
-    return ListView(       
+    return ListView(             
       children: [
        _box(),
        _box(),
@@ -56,9 +56,13 @@ class PrincipalPage extends StatelessWidget {
 
 
   _box(){
-    return Container(           
-      padding: EdgeInsets.all(5.0),
-      color: Colors.white,
+    return Container( 
+      margin: EdgeInsets.all(10),          
+      padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: Color(0xff707070)),
+      ),
       child:Column(
         children: [ 
           _informacionPerfil(),
@@ -73,19 +77,16 @@ class PrincipalPage extends StatelessWidget {
   }
 
 
+
+  
+
+
   _imagenPost(){
-    return Container(
-      width: 50.0,
-      height: 50.0,
-     margin: EdgeInsets.all(5.0),
-     decoration: BoxDecoration(
-       color: const Color(0xff7c94b6),
-       image: DecorationImage(
-         image: NetworkImage('https://img.dummyapi.io/photo-1564694202779-bc908c327862.jpg'),
-         fit: BoxFit.cover,
-       ),
-     ),
-           );
+    return FadeInImage(
+                        placeholder: AssetImage('assets/loanding.gif'),
+                        image: NetworkImage("https://img.dummyapi.io/photo-1564694202779-bc908c327862.jpg"));
+    
+   
   }
 
   _descripcionPost(){
