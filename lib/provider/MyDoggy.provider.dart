@@ -16,7 +16,7 @@ class MyDoggy {
   Future<http.Response> _get(String path,
       [Map<String, dynamic>? queryParameters]) async {
     var endpoint = "$_path$path";
-    var url = Uri.https(_host, endpoint);
+    var url = Uri.https(_host, endpoint,{"limit":"6"});
     var response = await http.get(url, headers: {"app-id": _appID});
     if (response.statusCode != 200) {
       print('Request failed with status: ${response.statusCode}.');
@@ -44,7 +44,7 @@ class MyDoggy {
     return user;
   }
 
-  getPostsList({int limit = 10, int page = 0}) async {
+  Future<List<Post>>getPostsList({int limit = 10, int page = 0}) async {
     var response = await _get("/post");
 
     List<Post> post = [];

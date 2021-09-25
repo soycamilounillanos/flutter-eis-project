@@ -1,30 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:my_doggy/model/Post.model.dart';
+import 'package:my_doggy/pages/profile.page.dart';
+import 'package:my_doggy/provider/MyDoggy.provider.dart';
 
-import 'profile.page.dart';
+class PrincipalPage extends StatefulWidget {
+  PrincipalPage({Key? key}) : super(key: key);
 
-class PrincipalPage extends StatelessWidget {
-  const PrincipalPage({Key? key}) : super(key: key);
+  @override
+  _PrincipalPageState createState() => _PrincipalPageState();
+  }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Container(
-  //       color: Colors.white,
-  //       child: Center(
-  //         child: TextButton(
-  //           onPressed: () {},
-  //           child: const Padding(
-  //             padding: EdgeInsets.all(8.0),
-  //             child: Text(
-  //               "Bienvenido",
-  //               style: TextStyle(fontSize: 20, color: Colors.white),
-  //             ),
-  //           ),
-  //           style: TextButton.styleFrom(
-  //               backgroundColor: const Color(0xff3AAAFE),
-  //               shape: const StadiumBorder()),
-  //         ),
-  //       ));
-  // }
+ 
+
+class _PrincipalPageState extends State<PrincipalPage> {
+
+  
+  final MyDoggy myDoggyProvider = MyDoggy();
+  Future<List<Post>>? listaPost;
+
+   @override
+  void initState() {
+    listaPost = myDoggyProvider.getPostsList();
+    super.initState();
+
+  } 
 
   @override
   Widget build(BuildContext context) {
@@ -37,20 +36,26 @@ class PrincipalPage extends StatelessWidget {
   }
 
   _body(BuildContext context) {
-    return ListView(
-      children: [
-        _box(context),
-        _box(context),
-        _box(context),
-        _box(context),
-        _box(context),
-        _box(context),
-        _box(context),
-      ],
+    return FutureBuilder(
+      future: listaPost,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData){
+
+          List<Widget> list = [];
+
+          snapshot.data.forEach( (item) => list.add(_box(context)));
+          
+          print(list.length);
+          return ListView(
+            children: list,
+          );
+        } else
+          return Text("No hay datos");
+      }
     );
   }
 
-  _box(BuildContext context) {
+  Widget _box(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
@@ -174,4 +179,7 @@ class PrincipalPage extends StatelessWidget {
         ),
         child: Text("Hola"));
   }
+
+
+
 }
