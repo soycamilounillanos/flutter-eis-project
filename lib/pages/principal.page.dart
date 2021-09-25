@@ -4,6 +4,8 @@ import 'package:my_doggy/pages/profile.page.dart';
 import 'package:my_doggy/provider/MyDoggy.provider.dart';
 import 'package:intl/intl.dart';
 
+import 'profile.page.dart';
+import './../model/UserProfile.model.dart';
 class PrincipalPage extends StatefulWidget {
   PrincipalPage({Key? key}) : super(key: key);
 
@@ -49,11 +51,11 @@ class _PrincipalPageState extends State<PrincipalPage> {
 
   Widget _box(BuildContext context, Post item) {
     return Container(
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+      margin: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(color: Color(0xff707070)),
+        border: Border.all(color: const Color(0xff707070)),
       ),
       child: Column(
         children: [
@@ -66,13 +68,11 @@ class _PrincipalPageState extends State<PrincipalPage> {
     );
   }
 
-  _imagenPost(Post item) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      child: FadeInImage(
-          placeholder: AssetImage('assets/loanding.gif'),
-          image: NetworkImage(item.image)),
-    );
+  _imagenPost() {
+    return FadeInImage(
+        placeholder: AssetImage('assets/loading.gif'),
+        image: NetworkImage(
+           item.image));
   }
 
   _descripcionPost(Post item) {
@@ -123,8 +123,29 @@ class _PrincipalPageState extends State<PrincipalPage> {
   _navegateProfile({required BuildContext context, required Widget widget}) {
     return GestureDetector(
         onTap: () {
+          var userProfile = UserProfile(id: "60d0fe4f5311236168a109ca",
+            title: "ms",
+            firstName: "Sara",
+            lastName: "Andersen",
+            picture: "https://randomuser.me/api/portraits/women/58.jpg",
+            gender: "female",
+            email: "sara.andersen@example.com",
+            dateOfBirth: "1996-04-30T19:26:49.610Z",
+            phone: "92694011",
+            registerDate: "2021-06-21T21:02:07.374Z",
+            updatedDate: "2021-06-21T21:02:07.374Z",
+            location: Location(
+                street: "9614, SÃ¸ndermarksvej",
+                city: "Kongsvinger",
+                state: "Nordjylland",
+                country: "Denmark",
+                timezone: "-9:00"
+            )
+          );
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => ProfilePage()));
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ProfilePage(userProfile: userProfile)));
         },
         child: widget);
   }
