@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_doggy/model/Post.model.dart';
 import 'package:my_doggy/pages/profile.page.dart';
 import 'package:my_doggy/provider/MyDoggy.provider.dart';
+import 'package:intl/intl.dart';
 
 import 'profile.page.dart';
 import './../model/UserProfile.model.dart';
@@ -10,22 +11,17 @@ class PrincipalPage extends StatefulWidget {
 
   @override
   _PrincipalPageState createState() => _PrincipalPageState();
-  }
-
- 
+}
 
 class _PrincipalPageState extends State<PrincipalPage> {
-
-  
   final MyDoggy myDoggyProvider = MyDoggy();
   Future<List<Post>>? listaPost;
 
-   @override
+  @override
   void initState() {
     listaPost = myDoggyProvider.getPostsList();
     super.initState();
-
-  } 
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,25 +35,21 @@ class _PrincipalPageState extends State<PrincipalPage> {
 
   _body(BuildContext context) {
     return FutureBuilder(
-      future: listaPost,
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.hasData){
+        future: listaPost,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            List<Widget> list = [];
 
-          List<Widget> list = [];
-
-          snapshot.data.forEach( (item) => list.add(_box(context)));
-          
-          print(list.length);
-          return ListView(
-            children: list,
-          );
-        } else
-          return Text("No hay datos");
-      }
-    );
+            snapshot.data.forEach((item) => list.add(_box(context, item)));
+            return ListView(
+              children: list,
+            );
+          } else
+            return Center(child: CircularProgressIndicator());
+        });
   }
 
-  Widget _box(BuildContext context) {
+  Widget _box(BuildContext context, Post item) {
     return Container(
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
@@ -67,10 +59,10 @@ class _PrincipalPageState extends State<PrincipalPage> {
       ),
       child: Column(
         children: [
-          _informacionPerfil(context),
-          _descripcionPost(),
-          _imagenPost(),
-          _infoLikePost(),
+          _informacionPerfil(context, item),
+          _descripcionPost(item),
+          _imagenPost(item),
+          _infoLikePost(item),
         ],
       ),
     );
@@ -80,17 +72,17 @@ class _PrincipalPageState extends State<PrincipalPage> {
     return FadeInImage(
         placeholder: AssetImage('assets/loading.gif'),
         image: NetworkImage(
-            "https://img.dummyapi.io/photo-1564694202779-bc908c327862.jpg"));
+           item.image));
   }
 
-  _descripcionPost() {
-    return Container(
-        margin: EdgeInsets.all(5.0),
-        child: Text(
-            "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."));
+  _descripcionPost(Post item) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [Text(item.text)],
+    );
   }
 
-  _informacionPerfil(BuildContext context) {
+  _informacionPerfil(BuildContext context, Post item) {
     return Row(
       children: [
         _navegateProfile(
@@ -102,8 +94,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
             decoration: BoxDecoration(
               color: const Color(0xff7c94b6),
               image: DecorationImage(
-                image: NetworkImage(
-                    'https://randomuser.me/api/portraits/med/women/28.jpg'),
+                image: NetworkImage(item.owner.picture),
                 fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.all(Radius.circular(50.0)),
@@ -118,16 +109,17 @@ class _PrincipalPageState extends State<PrincipalPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Cuero Designer",
+              item.owner.firstName + " " + item.owner.lastName,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            Text("04:00 P.M", style: TextStyle(color: Color(0xff9C9C9C))),
+            Text(item.publishDate, style: TextStyle(color: Color(0xff9C9C9C))),
           ],
         ),
       ],
     );
   }
 
+//DateFormat("dd-MM-yyyy").format(item.publishDate)
   _navegateProfile({required BuildContext context, required Widget widget}) {
     return GestureDetector(
         onTap: () {
@@ -158,7 +150,12 @@ class _PrincipalPageState extends State<PrincipalPage> {
         child: widget);
   }
 
-  _infoLikePost() {
+  _infoLikePost(Post item) {
+    List<Widget> listTags = [];
+    for (var tag in item.tags) {
+      listTags.add(_tagsList(tag.toString()));
+    }
+
     return Container(
         margin: EdgeInsets.all(5.0),
         child: Row(
@@ -172,7 +169,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
                   size: 25,
                 ),
                 Text(
-                  "5",
+                  "${item.likes}",
                   style: const TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
@@ -183,14 +180,12 @@ class _PrincipalPageState extends State<PrincipalPage> {
             const SizedBox(
               width: 30,
             ),
-            _tagsList(),
-            _tagsList(),
-            _tagsList(),
+            ...listTags
           ],
         ));
   }
 
-  _tagsList() {
+  Widget _tagsList(text) {
     return Container(
         margin: EdgeInsets.all(5.0),
         padding: EdgeInsets.all(5.0),
@@ -200,9 +195,6 @@ class _PrincipalPageState extends State<PrincipalPage> {
               Radius.circular(5.0) //                 <--- border radius here
               ),
         ),
-        child: Text("Hola"));
+        child: Text(text));
   }
-
-
-
 }
