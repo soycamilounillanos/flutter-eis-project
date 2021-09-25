@@ -6,7 +6,7 @@ class Post {
   String text;
   String publishDate;
   int likes;
-  List<String> tags;
+  List<dynamic> tags;
   Owner owner;
 
   Post({

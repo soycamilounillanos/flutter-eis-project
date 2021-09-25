@@ -9,7 +9,7 @@ class ScrollScreem extends StatelessWidget {
     return Scaffold(
       body: PageView(
         scrollDirection: Axis.vertical,
-        children: const [HomePage(), PrincipalPage()],
+        children:  [HomePage(), PrincipalPage()],
       ),
     );
   }
