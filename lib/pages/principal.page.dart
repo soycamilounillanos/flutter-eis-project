@@ -3,6 +3,8 @@ import 'package:my_doggy/model/Post.model.dart';
 import 'package:my_doggy/pages/profile.page.dart';
 import 'package:my_doggy/provider/MyDoggy.provider.dart';
 
+import 'profile.page.dart';
+import './../model/UserProfile.model.dart';
 class PrincipalPage extends StatefulWidget {
   PrincipalPage({Key? key}) : super(key: key);
 
@@ -76,7 +78,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
 
   _imagenPost() {
     return FadeInImage(
-        placeholder: AssetImage('assets/loanding.gif'),
+        placeholder: AssetImage('assets/loading.gif'),
         image: NetworkImage(
             "https://img.dummyapi.io/photo-1564694202779-bc908c327862.jpg"));
   }
@@ -129,8 +131,29 @@ class _PrincipalPageState extends State<PrincipalPage> {
   _navegateProfile({required BuildContext context, required Widget widget}) {
     return GestureDetector(
         onTap: () {
+          var userProfile = UserProfile(id: "60d0fe4f5311236168a109ca",
+            title: "ms",
+            firstName: "Sara",
+            lastName: "Andersen",
+            picture: "https://randomuser.me/api/portraits/women/58.jpg",
+            gender: "female",
+            email: "sara.andersen@example.com",
+            dateOfBirth: "1996-04-30T19:26:49.610Z",
+            phone: "92694011",
+            registerDate: "2021-06-21T21:02:07.374Z",
+            updatedDate: "2021-06-21T21:02:07.374Z",
+            location: Location(
+                street: "9614, SÃ¸ndermarksvej",
+                city: "Kongsvinger",
+                state: "Nordjylland",
+                country: "Denmark",
+                timezone: "-9:00"
+            )
+          );
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => ProfilePage()));
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ProfilePage(userProfile: userProfile)));
         },
         child: widget);
   }
