@@ -35,22 +35,26 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   _body(BuildContext context) {
-    return FutureBuilder(
-        future: futureUserProfile,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData) {
-            userProfile = snapshot.data;
-            return Column(
-              children: [_buildStack(), _buildCard()],
-            );
-          } else
-            return Center(child: CircularProgressIndicator());
-        });
+    return ListView(
+      children: [
+        FutureBuilder(
+            future: futureUserProfile,
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                userProfile = snapshot.data;
+                return Column(
+                  children: [_buildStack(), _buildCard()],
+                );
+              } else
+                return Center(child: CircularProgressIndicator());
+            }),
+      ],
+    );
   }
 
   Widget _buildCard() {
     return SizedBox(
-      height: 410,
+      height: 800,
       child: Card(
         child: Column(
           children: [
