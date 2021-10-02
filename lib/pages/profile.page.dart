@@ -124,8 +124,8 @@ class _ProfilePageState extends State<ProfilePage> {
     return Stack(
       alignment: const Alignment(0.6, 0.6),
       children: [
-        const CircleAvatar(
-          backgroundImage: AssetImage('assets/mydoggy.png'),
+        CircleAvatar(
+          backgroundImage: NetworkImage(userProfile!.picture),
           radius: 100,
         ),
         Container(
