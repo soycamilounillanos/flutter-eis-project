@@ -15,17 +15,31 @@ class PrincipalPage extends StatefulWidget {
 }
 
 class _PrincipalPageState extends State<PrincipalPage> {
+  ScrollController _scrollController = new ScrollController();
+  bool _isLoading = false;
+  int _page = 0;
+
   final MyDoggy myDoggyProvider = MyDoggy();
-  Future<List<Post>>? listaPost;
+  late Future<List<Post>> listaPost;
 
   @override
   void initState() {
-    listaPost = myDoggyProvider.getPostsList();
+    //listaPost = myDoggyProvider.getPostsList();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    _scrollController
+      ..addListener(() {
+        var triggerFetchMoreSize =
+            0.9 * _scrollController.position.maxScrollExtent;
+
+        if (_scrollController.position.pixels > triggerFetchMoreSize) {
+          _pagination();
+        }
+      });
+
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text("My doggy")),
@@ -36,13 +50,15 @@ class _PrincipalPageState extends State<PrincipalPage> {
 
   _body(BuildContext context) {
     return FutureBuilder(
-        future: listaPost,
+        future: postList(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData) {
+          if (snapshot.hasData || _isLoading) {
             List<Widget> list = [];
 
             snapshot.data.forEach((item) => list.add(_box(context, item)));
+
             return ListView(
+              controller: _scrollController,
               children: list,
             );
           } else
@@ -101,11 +117,6 @@ class _PrincipalPageState extends State<PrincipalPage> {
                 image: NetworkImage(item.owner.picture),
                 fit: BoxFit.cover,
               ),
-              borderRadius: BorderRadius.all(Radius.circular(50.0)),
-              border: Border.all(
-                color: Colors.grey,
-                width: 1.0,
-              ),
             ),
           )
         ),
@@ -127,8 +138,32 @@ class _PrincipalPageState extends State<PrincipalPage> {
     );
   }
 
+  Future<List<Post>> postList() async {
+    print(" se llama de nuevo");
+
+    listaPost = myDoggyProvider.getPostsList(page: _page);
+    setState(() {
+      _isLoading = false;
+      _page += 1;
+      //add api for laod the more data according to new page
+    });
+    return listaPost;
+  }
+
+  _pagination() {
+    setState(() {
+      _isLoading = true;
+      //add api for laod the more data according to new page
+    });
+    print(_isLoading);
+    print(_page);
+  }
+
 //DateFormat("dd-MM-yyyy").format(item.publishDate)
-  _navegateProfile({required BuildContext context, required Widget widget, required String userId}) {
+  _navegateProfile(
+      {required BuildContext context,
+      required Widget widget,
+      required String userId}) {
     return GestureDetector(
         onTap: () {
           Navigator.push(
@@ -180,9 +215,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
         padding: EdgeInsets.all(5.0),
         decoration: BoxDecoration(
           color: Colors.grey,
-          borderRadius: BorderRadius.all(
-              Radius.circular(5.0)
-              ),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
         ),
         child: Text(text));
   }
