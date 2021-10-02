@@ -90,6 +90,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
       children: [
         _navegateProfile(
           context: context,
+          userId: item.owner.id,
           widget: Container(
             margin: EdgeInsets.all(5.0),
             width: 50.0,
@@ -106,15 +107,18 @@ class _PrincipalPageState extends State<PrincipalPage> {
                 width: 1.0,
               ),
             ),
-          ),
-          userId: item.owner.id
+          )
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              item.owner.firstName + " " + item.owner.lastName,
-              style: TextStyle(fontWeight: FontWeight.bold),
+            _navegateProfile(
+              context: context,
+              userId: item.owner.id,
+              widget:Text(
+                item.owner.firstName + " " + item.owner.lastName,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ) 
             ),
             Text(item.publishDate, style: TextStyle(color: Color(0xff9C9C9C))),
           ],
