@@ -26,7 +26,7 @@ class MyDoggy {
     return response;
   }
 
-  getUserProfile(String userId) async {
+  Future<UserProfile>getUserProfile(String userId) async {
     var response = await _get("/user/$userId");
     var jsonResponse =
         convert.jsonDecode(response.body) as Map<String, dynamic>;
@@ -34,7 +34,7 @@ class MyDoggy {
     return userProfile;
   }
 
-  getUsersList() async {
+  Future<List<User>> getUsersList() async {
     var response = await _get("/user");
 
     List<User> user = [];
@@ -44,7 +44,7 @@ class MyDoggy {
     return user;
   }
 
-  Future<List<Post>>getPostsList({int limit = 10, int page = 0}) async {
+  Future<List<Post>> getPostsList({int limit = 10, int page = 0}) async {
     var response = await _get("/post");
 
     List<Post> post = [];
@@ -54,7 +54,7 @@ class MyDoggy {
     return post;
   }
 
-  getUserPost(String userId) async {
+  Future<List<Post>> getUserPost(String userId) async {
     var response =
         await _get("/user/$userId/post");
 
@@ -65,7 +65,7 @@ class MyDoggy {
     return post;
   }
 
-  getCommentsList(String postId) async {
+  Future<List<Comment>> getCommentsList(String postId) async {
     var response =
         await _get("/post/$postId/comment");
 
@@ -86,7 +86,7 @@ class MyDoggy {
     return tags;
   }
 
-  getPostbyTag(String tag) async {
+  Future<List<Post>> getPostbyTag(String tag) async {
     var response = await _get("/tag/$tag/post");
 
     List<Post> post = [];

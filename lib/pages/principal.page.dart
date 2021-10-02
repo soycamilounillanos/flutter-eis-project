@@ -8,7 +8,7 @@ import 'profile.page.dart';
 import './../model/UserProfile.model.dart';
 
 class PrincipalPage extends StatefulWidget {
-  PrincipalPage({Key? key}) : super(key: key);
+  const PrincipalPage({Key? key}) : super(key: key);
 
   @override
   _PrincipalPageState createState() => _PrincipalPageState();
@@ -28,7 +28,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text("My doggy")),
+        title: const Center(child: Text("My doggy")),
       ),
       body: _body(context),
     );
@@ -107,6 +107,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
               ),
             ),
           ),
+          userId: item.owner.id
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,31 +124,13 @@ class _PrincipalPageState extends State<PrincipalPage> {
   }
 
 //DateFormat("dd-MM-yyyy").format(item.publishDate)
-  _navegateProfile({required BuildContext context, required Widget widget}) {
+  _navegateProfile({required BuildContext context, required Widget widget, required String userId}) {
     return GestureDetector(
         onTap: () {
-          var userProfile = UserProfile(
-              id: "60d0fe4f5311236168a109ca",
-              title: "ms",
-              firstName: "Sara",
-              lastName: "Andersen",
-              picture: "https://randomuser.me/api/portraits/women/58.jpg",
-              gender: "female",
-              email: "sara.andersen@example.com",
-              dateOfBirth: "1996-04-30T19:26:49.610Z",
-              phone: "92694011",
-              registerDate: "2021-06-21T21:02:07.374Z",
-              updatedDate: "2021-06-21T21:02:07.374Z",
-              location: Location(
-                  street: "9614, SÃ¸ndermarksvej",
-                  city: "Kongsvinger",
-                  state: "Nordjylland",
-                  country: "Denmark",
-                  timezone: "-9:00"));
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => ProfilePage(userProfile: userProfile)));
+                  builder: (context) => ProfilePage(userId: userId)));
         },
         child: widget);
   }
@@ -194,7 +177,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
         decoration: BoxDecoration(
           color: Colors.grey,
           borderRadius: BorderRadius.all(
-              Radius.circular(5.0) //                 <--- border radius here
+              Radius.circular(5.0)
               ),
         ),
         child: Text(text));
