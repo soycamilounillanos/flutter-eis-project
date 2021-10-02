@@ -13,10 +13,9 @@ class MyDoggy {
   final String _host = "dummyapi.io";
   final String _path = "/data/v1";
 
-  Future<http.Response> _get(String path,
-      [Map<String, dynamic>? queryParameters]) async {
+  Future<http.Response> _get(String path, {Map<String, String>? params}) async {
     var endpoint = "$_path$path";
-    var url = Uri.https(_host, endpoint,{"limit":"6"});
+    var url = Uri.https(_host, endpoint, params);
     var response = await http.get(url, headers: {"app-id": _appID});
     if (response.statusCode != 200) {
       print('Request failed with status: ${response.statusCode}.');
@@ -26,7 +25,7 @@ class MyDoggy {
     return response;
   }
 
-  Future<UserProfile>getUserProfile(String userId) async {
+  Future<UserProfile> getUserProfile(String userId) async {
     var response = await _get("/user/$userId");
     var jsonResponse =
         convert.jsonDecode(response.body) as Map<String, dynamic>;
@@ -34,8 +33,8 @@ class MyDoggy {
     return userProfile;
   }
 
-  Future<List<User>> getUsersList() async {
-    var response = await _get("/user");
+  Future<List<User>> getUsersList({int limit = 10, int page = 0}) async {
+    var response = await _get("/user", params: { "limit": "$limit", "page": "$page"});
 
     List<User> user = [];
     var list = _getList(response.body);
@@ -45,7 +44,7 @@ class MyDoggy {
   }
 
   Future<List<Post>> getPostsList({int limit = 10, int page = 0}) async {
-    var response = await _get("/post");
+    var response = await _get("/post", params: { "limit": "$limit", "page": "$page"});
 
     List<Post> post = [];
     var list = _getList(response.body);
@@ -54,9 +53,8 @@ class MyDoggy {
     return post;
   }
 
-  Future<List<Post>> getUserPost(String userId) async {
-    var response =
-        await _get("/user/$userId/post");
+  Future<List<Post>> getUserPost(String userId, {int limit = 10, int page = 0}) async {
+    var response = await _get("/user/$userId/post", params: { "limit": "$limit", "page": "$page"});
 
     List<Post> post = [];
     var list = _getList(response.body);
@@ -65,9 +63,8 @@ class MyDoggy {
     return post;
   }
 
-  Future<List<Comment>> getCommentsList(String postId) async {
-    var response =
-        await _get("/post/$postId/comment");
+  Future<List<Comment>> getCommentsList(String postId, {int limit = 10, int page = 0}) async {
+    var response = await _get("/post/$postId/comment", params: { "limit": "$limit", "page": "$page"});
 
     List<Comment> comment = [];
     var list = _getList(response.body);
@@ -86,8 +83,8 @@ class MyDoggy {
     return tags;
   }
 
-  Future<List<Post>> getPostbyTag(String tag) async {
-    var response = await _get("/tag/$tag/post");
+  Future<List<Post>> getPostbyTag(String tag, {int limit = 10, int page = 0}) async {
+    var response = await _get("/tag/$tag/post", params: { "limit": "$limit", "page": "$page"});
 
     List<Post> post = [];
     var list = _getList(response.body);
